@@ -1,0 +1,8 @@
+path: data/
+train: 'train/images'
+test: 'test/images'
+val: 'valid/images'
+ 
+nc: 1
+names: 
+  0: 'stop_line'
