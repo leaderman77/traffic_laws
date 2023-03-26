@@ -25,17 +25,20 @@ def convert_to_yolov8(info_dict):
 
     # For each bounding box
     for i in range(len(xmin_list)):
-        b_center_x = (xmin_list[i] + xmax_list[i]) / 2
-        b_center_y = (ymin_list[i] + ymax_list[i]) / 2
-        b_width = (xmax_list[i] - xmin_list[i])
-        b_height = (ymax_list[i] - ymin_list[i])
+        xmax = xmax_list[i] + xmin_list[i]
+        ymax = ymax_list[i] + ymin_list[i]
+        b_center_x = (xmin_list[i] + xmax) / 2
+        b_center_y = (ymin_list[i] + ymax) / 2
+        b_width = (xmax - xmin_list[i])
+        b_height = (ymax - ymin_list[i])
 
         # Normalise the co-ordinates by the dimensions of the image
         b_center_x /= iw_list[i]
         b_center_y /= ih_list[i]
         b_width /= iw_list[i]
         b_height /= ih_list[i]
-        b_height = abs(b_height)
+        if b_height < 0:
+            b_height = abs(b_height)
 
         # Write the bbox details to the file
         print_buffer.append(
