@@ -1,0 +1,8 @@
+path: C:\Users\sardo\Documents\DS\PyCharm\traffic_laws\
+train: dataset/train/images
+test: dataset/test/images
+val: dataset/val/images
+ 
+nc: 1
+names: 
+  0: ['stop_line']
