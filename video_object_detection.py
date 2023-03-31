@@ -2,11 +2,11 @@ import cv2 as cv
 import numpy as np
 from ultralytics import YOLO
 from utils import draw_detections
+
 obj_cls = ["Stop Line"]
 
 
 def get_bbox_coordinate(results):
-
     for i in range(len(results)):
         boxes = results[i].boxes
         # original image
