@@ -7,16 +7,15 @@ from PIL import Image, ImageDraw
 from sklearn.model_selection import train_test_split
 
 class_id = 0
-
+class_names = ['stop line']
+rng = np.random.default_rng(3)
+colors = rng.uniform(0, 255, size=(len(class_names), 3))
 
 # Utility function to move images
 def move_files_to_folder(list_of_files, destination_folder):
     for f in list_of_files:
         try:
             shutil.move(f, destination_folder)
-        # except:
-        #     print(f)
-        #     assert False
         except Exception as e:
             print(f"Error moving file {f}: {e}")
             raise
@@ -86,3 +85,42 @@ def plot_bounding_box(image, annotation_list):
 
     plt.imshow(np.array(image))
     plt.show()
+
+
+def draw_detections(image, boxes, scores, class_ids, mask_alpha=0.3):
+    mask_img = image.copy()
+    det_img = image.copy()
+
+    img_height, img_width = image.shape[:2]
+    size = min([img_height, img_width]) * 0.0006
+    text_thickness = int(min([img_height, img_width]) * 0.001)
+
+    # Draw bounding boxes and labels of detections
+    for box, score, class_id in zip(boxes, scores, class_ids):
+        color = colors[class_id]
+
+        x1, y1, x2, y2 = box.astype(int)
+
+        # Draw rectangle
+        cv.rectangle(det_img, (x1, y1), (x2, y2), color, 2)
+
+        # Draw fill rectangle in mask image
+        cv.rectangle(mask_img, (x1, y1), (x2, y2), color, -1)
+
+        label = class_names[class_id]
+        caption = f'{label} {int(score * 100)}%'
+        (tw, th), _ = cv.getTextSize(text=caption, fontFace=cv.FONT_HERSHEY_SIMPLEX,
+                                      fontScale=size, thickness=text_thickness)
+        th = int(th * 1.2)
+
+        cv.rectangle(det_img, (x1, y1),
+                      (x1 + tw, y1 - th), color, -1)
+        cv.rectangle(mask_img, (x1, y1),
+                      (x1 + tw, y1 - th), color, -1)
+        cv.putText(det_img, caption, (x1, y1),
+                    cv.FONT_HERSHEY_SIMPLEX, size, (255, 255, 255), text_thickness, cv.LINE_AA)
+
+        cv.putText(mask_img, caption, (x1, y1),
+                    cv.FONT_HERSHEY_SIMPLEX, size, (255, 255, 255), text_thickness, cv.LINE_AA)
+
+    return cv.addWeighted(mask_img, mask_alpha, det_img, 1 - mask_alpha, 0)

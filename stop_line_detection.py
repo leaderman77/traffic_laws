@@ -7,11 +7,14 @@ from ultralytics import YOLO
 # )
 
 # Load a model
-model = YOLO('yolov8n.pt')  # build a new model from scratch
+model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+# model = YOLO('yolov8n.yaml')  # build a new model from scratch
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
 # Use the model
-results = model.train(data='data.yaml', epochs=10, batch=8)  # train the model
+results = model.train(data='data.yaml', epochs=50, batch=8)  # train the model
+
 results = model.val()  # evaluate model performance on the validation set
-results = model('frame0.jpg')  # predict on an image
+#results = model('frame0.jpg')  # predict on an image
 success = model.export(format='onnx')  # export the model to ONNX format
