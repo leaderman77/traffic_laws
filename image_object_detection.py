@@ -6,7 +6,6 @@ obj_cls = ["Stop Line"]
 
 
 def get_bbox_coordinate(results):
-    box = []
     for i in range(len(results)):
         boxes = results[i].boxes
         for j in range(len(boxes)):
@@ -38,7 +37,7 @@ def inference(image_file):
 
 
 def main():
-    results = inference("dataset/test/images/frame676.jpg")
+    results = inference("dataset/test/images/frame3348.jpg")
 
     # original image
     image = results[0].orig_img

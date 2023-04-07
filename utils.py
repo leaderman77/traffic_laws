@@ -11,6 +11,18 @@ class_names = ['stop line']
 rng = np.random.default_rng(3)
 colors = rng.uniform(0, 255, size=(len(class_names), 3))
 
+
+def project_dir():
+    """
+    Returns path to the project root
+    Returns
+    -------
+    Path
+        Return path to the project root
+    """
+    return os.path.dirname(os.path.dirname(__file__))
+
+
 # Utility function to move images
 def move_files_to_folder(list_of_files, destination_folder):
     for f in list_of_files:
