@@ -21,3 +21,6 @@ Quyidagi moddlar mavjud
 
 
 Moddalar kengroq tavsifi uchun quyidagini qarang: [Moddalar.pdf](Moddalar.pdf).
+
+### Datani yuklash
+Quyidagiga boring: `scripts/yuklash.py`

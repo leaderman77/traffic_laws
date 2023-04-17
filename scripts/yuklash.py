@@ -48,6 +48,7 @@ with open('link_v3.json', 'r') as file:
 
 json_data_filtered = []
 for d in json_data:
+    # modda id va number. Etibor qiling Moddalar.pdf da id=Kod, va number=Raqam deyilgan
     if d['id'] == 39 and d['number'] == '128⁴-2':
         json_data_filtered.append(d)
 
