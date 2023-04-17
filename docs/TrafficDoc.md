@@ -20,4 +20,4 @@ Quyidagi moddlar mavjud
  <img width="321" alt="image" src="https://user-images.githubusercontent.com/24993718/232384461-adfa3ee7-4e6f-4f3d-8d9f-bd5db7e18b89.png">
 
 
-Moddalar kengroq tavsifi quyidagi PDFda.
+Moddalar kengroq tavsifi uchun quyidagini qarang: [Moddalar.pdf](Moddalar.pdf).
