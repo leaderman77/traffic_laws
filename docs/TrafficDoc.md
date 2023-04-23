@@ -24,3 +24,57 @@ Moddalar kengroq tavsifi uchun quyidagini qarang: [Moddalar.pdf](Moddalar.pdf).
 
 ### Datani yuklash
 Quyidagiga boring: `scripts/yuklash.py`
+
+
+### Holatlar
+#### '128⁵-2', qarama qarshi yo’ldan harakatlanish moddasi.
+
+Moving
+https://docs.google.com/document/d/1hQ47u96GML-y-UL5LldV7pMsZ22_70RFW9T7E9TF6X0/edit
+Fixed
+https://docs.google.com/document/d/1q_CcHwMaupQ7Z35s0QLMT4q1cBaGc9Mh0oYKO4xVSZU/edit
+
+
+
+**Yechim**
+- 1-talik uzluksiz chiziqni aniqlash - 1 
+- 2-talik uzluksiz chiziqni aniqlash - 1
+- Orientatsiyasini bilishimiz kerak 
+  - chap - mashinani detect qilishimiz kerak - 1
+  - o’ng - mashinani detect qilishimiz kerak - 1
+- Chiziq ustudaligini aniqlashimiz kerak - 1
+- Chap yoki o’ng tomondaligini bilishimiz kerak
+  - kordinatalarni solishtiramiz: mashina va chiziq
+
+#### 128-1, kod -26 yo’l belgi ‘znak’
+Fixed
+https://docs.google.com/document/d/1pjQoE3kQ12B6210yYEaEiUtRkOpYoJMHO1Ix54tv-Mc/edit
+Moving
+https://docs.google.com/document/d/1fTk8iSD-h1SqCT95oKWZ8X0fXXKrKMMoQcy1Y1Dh1cg/edit
+
+**Yechim**
+- Mashinani to’xtab turishini aniqlaydigan model kerak: tracking asosida bo’ladi
+- stop belgini aniqlaydigan model kerak
+- yo’l belgilarini aniqlaydigan model kerak
+- Mashina xillarini aniqlaydigan model: yuk, yengil
+- Pedestrian detection
+
+
+
+#### 130 - 1,  kod - 48: Transport vositalari haydovchilarining temir yo’lni o’tish joylaridan o’tish qoidalarini buzishi
+
+Fixed - OK
+https://docs.google.com/document/d/1o_h_DN2y4-2o34zLpCYhw6dk6G1Mt69OmbJpf9hXUUk/edit
+Moving
+
+
+**Yechim**
+Faqat qizil yonadi, shunda to’xtash kerak
+Mashina aniqlaydigan model kerak
+Traffic light aniqlaydigan model kerak
+Qora chiziqni aniqlaydigan model kerak
+temir yo’lni aniqlaydigan model kerak
+
+
+
+
