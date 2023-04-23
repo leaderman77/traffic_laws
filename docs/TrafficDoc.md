@@ -66,14 +66,16 @@ https://docs.google.com/document/d/1fTk8iSD-h1SqCT95oKWZ8X0fXXKrKMMoQcy1Y1Dh1cg/
 Fixed - OK
 https://docs.google.com/document/d/1o_h_DN2y4-2o34zLpCYhw6dk6G1Mt69OmbJpf9hXUUk/edit
 Moving
+https://docs.google.com/document/d/1HV4HNN_P2kfxF9i8apYpPbU1I5RWEOFQQhNqdIvw6K8/edit
 
 
 **Yechim**
-Faqat qizil yonadi, shunda to’xtash kerak
-Mashina aniqlaydigan model kerak
-Traffic light aniqlaydigan model kerak
-Qora chiziqni aniqlaydigan model kerak
-temir yo’lni aniqlaydigan model kerak
+- Faqat qizil yonadi, shunda to’xtash kerak
+- Mashina aniqlaydigan model kerak
+- Traffic light aniqlaydigan model kerak
+- Qora chiziqni aniqlaydigan model kerak
+- temir yo’lni aniqlaydigan model kerak
+- stop belgini aniqlaydigan model kerak
 
 
 
