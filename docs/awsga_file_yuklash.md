@@ -11,10 +11,10 @@ sudo apt  install awscli
 aws configure
 ```
 enter bosilgandan keyin bazi confilglar so'raladi:
-* access key ID
-* secret access key
-* default region name
-* output format
+* access key ID - `AKIA476XMENJTLOCC4CE`
+* secret access key - `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`
+* default region name - `ap-northeast-3`
+* output format - `enter`ni o'zini bosaveramiz, hech narsa kiritish shartmas 
 
 `output format` qismida hech narsa kirtish kerak emas shunchaki `enter` bosilsa bo'ldi.
 
@@ -24,4 +24,4 @@ aws s3 cp example.txt s3://my-bucket/
 ```
 bu yerda:
 * exmaple.txt - yuklamoqchi bo'lgan filemiz bizda `*.zip` bo'ladi.
-* my-becket - buketimiz nomi(papka nomi desak ham bo'ladi)
+* my-becket - buketimiz nomi - `traffic-low`
