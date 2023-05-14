@@ -25,3 +25,9 @@ aws s3 cp example.txt s3://my-bucket/
 bu yerda:
 * exmaple.txt - yuklamoqchi bo'lgan filemiz bizda `*.zip` bo'ladi.
 * my-becket - buketimiz nomi - `traffic-low`
+
+4. `my-bucket` dagi filelarni korish uchun :
+    ```commandline
+    aws s3 ls s3://my-bucket/
+    ```
+   * my-becket - buketimiz nomi - `traffic-low`
