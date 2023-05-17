@@ -52,3 +52,4 @@ def tekshirish():
     print(f"Label natija: {natija}")
 
 tekshirish()
+
