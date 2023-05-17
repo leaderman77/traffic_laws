@@ -25,6 +25,7 @@ def train():
     print(metrics.top1)   # top1 aniqligi
 
 
+
 def tekshirish():
     """
     test qilish, model va rasmni berishimiz kerak
@@ -52,4 +53,5 @@ def tekshirish():
     print(f"Label natija: {natija}")
 
 tekshirish()
+
 
