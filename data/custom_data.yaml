@@ -1,4 +1,4 @@
-path: /home/cradle/work/git/traffic_laws/data/yolo_format/
+path: 'C:/Users/sardo/Documents/DS/PyCharm/cradle/traffic_laws/data/yolo_format'
 train: dataset/train/images
 test: dataset/test/images
 val: dataset/val/images

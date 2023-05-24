@@ -1,7 +1,9 @@
 import os
 import shutil
-from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+from sklearn.model_selection import train_test_split
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 def create_output_folders(train_path, test_path, val_path):
@@ -53,10 +55,10 @@ def split_data(images_path, labels_path, train_path, test_path, val_path, test_s
 
 
 if __name__ == "__main__":
-    images_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/images"
-    labels_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/labels"
-    train_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/dataset/train"
-    test_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/dataset/test"
-    val_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/dataset/val"
+    images_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'images')
+    labels_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'labels')
+    train_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'dataset', 'train')
+    test_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'dataset', 'test')
+    val_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'dataset', 'val')
 
     split_data(images_path, labels_path, train_path, test_path, val_path)

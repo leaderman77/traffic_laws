@@ -1,8 +1,10 @@
 import os
-import zipfile
 import shutil
-from tqdm import tqdm
+import zipfile
 import pandas as pd
+from tqdm import tqdm
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 def extract_zipfile(zip_path, tmp_folder):
@@ -48,17 +50,12 @@ def process_zipfiles(zip_path, images_path=None, labels_path=None):
             tmp_folder = "tmp_extracted"
             extract_zipfile(os.path.join(zip_path, zip_file), tmp_folder)
 
-            # Initialize counters for the current zip file
-            # num_images = 0
-            # num_labels = 0
-
             try:
                 # Copy image files to the images folder
                 img_counter, num_images = copy_files(os.path.join(tmp_folder, "obj_train_data"), images_path, ".PNG", "frame", img_counter)
 
                 # Copy label files to the labels folder
                 label_counter, num_labels = copy_files(os.path.join(tmp_folder, "obj_train_data"), labels_path, ".txt", "frame", label_counter)
-
 
                 # Clean up the temporary folder
                 shutil.rmtree(tmp_folder)
@@ -84,12 +81,11 @@ def save_report(report_data, report_file):
 
 if __name__ == "__main__":
     # Set the paths for the zip files and output folders
-    # zip_path = r"D:\DS\Projects\traffic_laws\targetlash\cvat_label_result"
-    zip_path = "/home/cradle/work/git/traffic_laws/data/cvat_targetlangan"
-    report_file = "/home/cradle/work/git/traffic_laws/report/file.csv"
+    zip_path = os.path.join(PROJECT_DIR, 'data', 'cvat_targetlangan')
+    report_file = os.path.join(PROJECT_DIR, 'report', 'file.csv')
 
-    images_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/images"
-    labels_path = "/home/cradle/work/git/traffic_laws/data/yolo_format/labels"
+    images_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'images')
+    labels_path = os.path.join(PROJECT_DIR, 'data', 'yolo_format', 'labels')
 
     report_data = process_zipfiles(zip_path, images_path, labels_path)
     save_report(report_data, report_file)
