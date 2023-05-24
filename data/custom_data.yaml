@@ -1,0 +1,7 @@
+path: /home/cradle/work/git/traffic_laws/data/yolo_format/
+train: dataset/train/images
+test: dataset/test/images
+val: dataset/val/images
+
+nc: 4
+names: ['qizil', 'yashil', 'chiziq', 'keng_mashina_chiziqda']
