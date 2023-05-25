@@ -1,29 +1,75 @@
 import cv2
-import os
+import os.path
+
+import numpy as np
+from ultralytics import YOLO
+from file_utils import project_dir
+
+print(project_dir())
+path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
+def train():
+    """
+    Funksiya modelni train qiladi
+    data uyidagi formatda bo'lish kerak
+    # - splitted
+    #     - train
+    #         - good
+    #         - problem
+    #     - val
+    #         - good
+    #         - problem
+    """
+
+    data_joyi = 'traffic_laws/scripts/splitted/'
+    model = YOLO('yolov8n-cls.pt')
+    model.train(data=data_joyi, epochs=100, imgsz=224, batch=512, save_period=10, device='cuda:0', augment=True)
+    metrics = model.val()
+    print(metrics.top1)   # top1 aniqligi
 
 
-cam = cv2.VideoCapture("vid_39_1284-2_1293.mp4")
+def tekshirish(path):
+    """
+    test qilish, model va rasmni berishimiz kerak
+    """
+    train_qilingan_model_joyi = os.path.join(
+        project_dir(),
+        "models",
+        "classification",
+        "tl-14",
+        "weights/best.pt"
+    )
+    test_rasm_joyi =(path)
 
+    model_custom = YOLO(train_qilingan_model_joyi)
+    natijalar = model_custom(test_rasm_joyi)  # predict on an image
+    natija = natijalar[0].names[np.argmax(natijalar[0].probs.cpu().numpy())]
 
-# frame
-currentframe = 0
+    print(f"Label natija: {natija}")
+cap = cv2.VideoCapture(path)
 
-while (True):
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
 
-    # reading from frame
-    ret, frame = cam.read()
+while(cap.isOpened()):
+    ret, frame = cap.read()
+    if ret==True:
+        frame = cv2.flip(frame,1)
 
-    if ret:
-        # if video is still left continue creating images
-        name = './data/frame' + str(currentframe) + '.jpg'
-        print('Creating...' + name)
+        if tekshirish(frame) == "good":
+            font = cv2.FONT_HERSHEY_COMPLEX
+            cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
+        else:
+            font = cv2.FONT_HERSHEY_COMPLEX
+            cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
+        out.write(frame)
 
-        # writing the extracted images
-        cv2.imwrite(name, frame)
-
-        currentframe += 1
+        cv2.imshow('frame',frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
     else:
         break
+cap.release()
 
-cam.release()
+out.release()
+
 cv2.destroyAllWindows()
