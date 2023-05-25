@@ -5,7 +5,8 @@ import numpy as np
 from ultralytics import YOLO
 from file_utils import project_dir
 
-path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284_2_502_good.mp4"
+path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
+saqlash_path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293_.mp4"
 def train():
     """
     Funksiya modelni train qiladi
@@ -46,7 +47,10 @@ def tekshirish(path2):
 cap = cv2.VideoCapture(path)
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
+# out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
+out = cv2.VideoWriter(
+        saqlash_path, fourcc, 20.0, (int(cap.get(3)), int(cap.get(4)))
+    )
 
 while(cap.isOpened()):
     ret, frame = cap.read()
