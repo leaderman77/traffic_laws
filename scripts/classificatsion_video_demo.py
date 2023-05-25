@@ -5,8 +5,7 @@ import numpy as np
 from ultralytics import YOLO
 from file_utils import project_dir
 
-print(project_dir())
-path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
+path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284_2_502_good.mp4"
 def train():
     """
     Funksiya modelni train qiladi
@@ -27,7 +26,7 @@ def train():
     print(metrics.top1)   # top1 aniqligi
 
 
-def tekshirish(path):
+def tekshirish(path2):
     """
     test qilish, model va rasmni berishimiz kerak
     """
@@ -38,13 +37,12 @@ def tekshirish(path):
         "tl-14",
         "weights/best.pt"
     )
-    test_rasm_joyi =(path)
+    test_rasm_joyi =(path2)
 
     model_custom = YOLO(train_qilingan_model_joyi)
     natijalar = model_custom(test_rasm_joyi)  # predict on an image
     natija = natijalar[0].names[np.argmax(natijalar[0].probs.cpu().numpy())]
-
-    print(f"Label natija: {natija}")
+    return (f"Label natija: {natija}")
 cap = cv2.VideoCapture(path)
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -54,11 +52,11 @@ while(cap.isOpened()):
     ret, frame = cap.read()
     if ret==True:
         frame = cv2.flip(frame,1)
-
-        if tekshirish(frame) == "good":
+        # print(tekshirish(frame))
+        if tekshirish(frame) == "Label natija: good":
             font = cv2.FONT_HERSHEY_COMPLEX
             cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
-        else:
+        elif tekshirish(frame) == "Label natija: problem":
             font = cv2.FONT_HERSHEY_COMPLEX
             cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
         out.write(frame)
