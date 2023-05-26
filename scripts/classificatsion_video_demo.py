@@ -5,8 +5,8 @@ import numpy as np
 from ultralytics import YOLO
 from file_utils import project_dir
 
-path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
-saqlash_path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293_.mp4"
+path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284-2_1254.mp4"
+saqlash_path = "vid_39_1284-2_1254"
 def train():
     """
     Funksiya modelni train qiladi
@@ -26,7 +26,7 @@ def train():
     metrics = model.val()
     print(metrics.top1)   # top1 aniqligi
 
-
+s = 0
 def tekshirish(path2):
     """
     test qilish, model va rasmni berishimiz kerak
@@ -60,12 +60,15 @@ while(cap.isOpened()):
         if tekshirish(frame) == "Label natija: good":
             font = cv2.FONT_HERSHEY_COMPLEX
             cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
+            s += 1
         elif tekshirish(frame) == "Label natija: problem":
             font = cv2.FONT_HERSHEY_COMPLEX
             cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
-        out.write(frame)
+        # out.write(frame)
+            cv2.imwrite(saqlash_path + "/%#05d.jpg" % s, frame)
+            s += 1
+        cv2.imshow('frame' ,frame)
 
-        cv2.imshow('frame',frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
