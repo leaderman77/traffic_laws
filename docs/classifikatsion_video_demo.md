@@ -1,6 +1,6 @@
-## Berilgan videoni clasifikatsiya moduli orqali muammoli joylarni aniqlash 
+## Berilgan videoni clasifikatsiya moduli orqali muammoli joylarni aniqlash
 
-1. Videoni biz classifikatsiya modulidan foydalanib 
+1. Videoni biz classifikatsiya modulidan foydalanib
     ```doctest
     import cv2
     import os.path
@@ -83,9 +83,10 @@
     
     cv2.destroyAllWindows()
     ```
-    kod orqali videoni fremnlarga o'tqazib, undagi muaamoli rasmlarni yuklab oldik va natijani va  👉 [bu](https://drive.google.com/drive/folders/1TyijJpv5I1dOFQlUJkKayGSAhYv015n4) yerga yuklandi
+   kod orqali videoni fremnlarga o'tqazib, undagi muaamoli rasmlarni yuklab oldik va natijani va
+   👉 [bu](https://drive.google.com/drive/folders/1TyijJpv5I1dOFQlUJkKayGSAhYv015n4) yerga yuklandi
 
-2. olingan videolarni video ko'riinshiga 
+2. olingan videolarni video ko'riinshiga
     ```doctest
     import cv2
     import os
@@ -119,4 +120,42 @@
     images_to_video(image_folder, video_name, fps)
     
     ```
-   codan foydalanib keltirdik va bu 👉 [bu](https://drive.google.com/drive/folders/1lPyXneWOwdVV4Qq-eP9mFpMcaoo-McxF) yerga yuklandi
+   codan foydalanib keltirdik va bu 👉 [bu](https://drive.google.com/drive/folders/1lPyXneWOwdVV4Qq-eP9mFpMcaoo-McxF)
+   yerga yuklandi
+
+## Xulosa:
+
+| Nomi               | asli | problem | good |
+|--------------------|------|---------|------|
+| vid_39_1284-2_1174 | 117  | 1       | 116  |
+| vid_39_1284-2_1202 | 38   | 18      | 20   |
+| vid_39_1284-2_1204 | 76   | 24      | 52   |
+| vid_39_1284-2_1207 | 50   | 22      | 28   |
+| vid_39_1284-2_1215 | 93   | 68      | 25   |
+| vid_39_1284-2_1220 | 104  | 7       | 97   |
+| vid_39_1284-2_1237 | 39   | 30      | 9    |
+| vid_39_1284-2_1250 | 52   | 20      | 32   |
+| vid_39_1284-2_1254 | 67   | 47      | 20   |
+| vid_39_1284-2_1293 | 386  | 358     | 28   |
+
+Eng ko’p framelar soni `vid_39_1284-2_1293`da 386ta
+
+Eng kam framelar soni `vid_39_1284-2_1202`da 38ta
+
+Eng ko’p problem framelar `vid_39_1284-2_1293`da 358ta
+
+Eng kam problem framelar `vid_39_1284-2_1174`da 1ta
+
+Eng ko’p good framelar `vid_39_1284-2_1174`da 116ta
+
+Eng kam good framelar `vid_39_1284-2_1237`da 9ta
+
+Ba'zi xatoliklar ham aniqlandi ,videodagi problem qilib olingan lekin bular good uchunn misol boladi
+`vid_39_1284-2_1202` 
+![img_4.png](img_4.png)
+
+`vid_39_1284-2_1220` 
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+
+Modul asosan qoida buzarlikdan oldinroq ya'ni aynan chiziq ustida emas undan oldinroq yoki keyinroqdan boshlamoqda
