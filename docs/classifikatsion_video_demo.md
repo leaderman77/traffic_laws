@@ -2,7 +2,7 @@
 
 1. Videoni biz classifikatsiya modulidan foydalanib [kod](https://github.com/cradle-uz/traffic_laws/blob/video_demo_classification/scripts/classificatsion_video_demo.py)
    
-   kod orqali videoni fremnlarga o'tqazib, undagi muaamoli rasmlarni yuklab oldik va natijani va
+   kod orqali videoni fremnlarga o'tqazib, undagi muamoli rasmlarni yuklab oldik natijani va
    👉 [bu](https://drive.google.com/drive/folders/1TyijJpv5I1dOFQlUJkKayGSAhYv015n4) yerga yuklandi
 
 2. olingan videolarni video ko'riinshiga [kod](https://github.com/cradle-uz/traffic_laws/blob/video_demo_classification/scripts/frame_do_video.py)
@@ -29,7 +29,7 @@
 
 
 
-### Model orqali ajratilgan problem framelarda godalar aniqlandi
+### Model orqali ajratilgan problem framelarda goodlar aniqlandi
 
 | Nomi                       | asli | problem                       | good |
 |----------------------------|------|-------------------------------|------|
@@ -66,4 +66,4 @@ Ba'zi xatoliklar ham aniqlandi ,videodagi problem qilib olingan lekin bular good
 ![vid_39_1284-2_1220.png](..%2Fdata%2Frasm%2Fvid_39_1284-2_1220.png)
 ![vid_39_1284-2_1220_1.png](..%2Fdata%2Frasm%2Fvid_39_1284-2_1220_1.png)
 
-Modul asosan qoida buzarlikdan oldinroq ya'ni aynan chiziq ustida emas undan oldinroq yoki keyinroqdan boshlamoqda
+Modul asosan qoida buzarlikdan oldinroq ya'ni aynan chiziq ustida emas undan oldinroq yoki keyinroqdan boshlanmoqda
