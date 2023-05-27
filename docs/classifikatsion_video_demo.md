@@ -152,10 +152,9 @@ Eng kam good framelar `vid_39_1284-2_1237`da 9ta
 
 Ba'zi xatoliklar ham aniqlandi ,videodagi problem qilib olingan lekin bular good uchunn misol boladi
 `vid_39_1284-2_1202` 
-![img_4.png](img_4.png)
-
+![img.png](..%2Fdata%2Frasm_joyi%2Fimg.png)
 `vid_39_1284-2_1220` 
-![img_5.png](img_5.png)
-![img_6.png](img_6.png)
+![img_1.png](..%2Fdata%2Frasm_joyi%2Fimg_1.png)
+![img_2.png](..%2Fdata%2Frasm_joyi%2Fimg_2.png)
 
 Modul asosan qoida buzarlikdan oldinroq ya'ni aynan chiziq ustida emas undan oldinroq yoki keyinroqdan boshlamoqda
