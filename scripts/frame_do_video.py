@@ -20,11 +20,11 @@ def images_to_video(image_folder, video_name, fps):
     video.release()
 
 # Rasmlar papkasini va video nomini aniqlang
-image_folder = '/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284-2_1293'
-video_name = 'vid_39_1284-2_1293_problem.mp4'
-
-# Kiritiladigan kadrlar sonini aniqlang
-fps = 24
+# image_folder = '/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284-2_1293'
+# video_name = 'vid_39_1284-2_1293_problem.mp4'
+#
+# # Kiritiladigan kadrlar sonini aniqlang
+# fps = 24
 
 # Rasmlarni video sifatida oqib olish funktsiyasini chaqirish
-images_to_video(image_folder, video_name, fps)
+# images_to_video(image_folder, video_name = 'vid_39_1284-2_1293_problem.mp4', fps = 24)

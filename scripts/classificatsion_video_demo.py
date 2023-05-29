@@ -1,12 +1,12 @@
 import cv2
 import os.path
-
+from frame_do_video import images_to_video
 import numpy as np
 from ultralytics import YOLO
 from file_utils import project_dir
 
-path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/vid_39_1284-2_1254.mp4"
-saqlash_path = "vid_39_1284-2_1254"
+path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
+saqlash_path = "vid_39_1284-2_1293"
 def train():
     """
     Funksiya modelni train qiladi
@@ -78,3 +78,5 @@ cap.release()
 out.release()
 
 cv2.destroyAllWindows()
+
+images_to_video(saqlash_path, video_name = 'vid_39_1284-2_1293_problem.mp4', fps = 24)
