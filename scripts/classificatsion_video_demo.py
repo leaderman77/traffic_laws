@@ -49,6 +49,9 @@ def process(video_path):
 
     saqlash_path = video_path.split('/')[-1].split(".")[0]
     s = 0
+    if not os.path.exists(saqlash_path):
+        # Create a new directory because it does not exist
+        os.makedirs(saqlash_path)
     cap = cv2.VideoCapture(video_path)
 
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -72,7 +75,7 @@ def process(video_path):
             # out.write(frame)
                 cv2.imwrite(saqlash_path + "/%#05d.jpg" % s, frame)
                 s += 1
-            cv2.imshow('frame' ,frame)
+            # cv2.imshow('frame' ,frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
