@@ -33,6 +33,7 @@ Model: app.py fayldagi "model = YOLO("../output/weights/best.pt")" qatorni o'ziz
    ![image](https://github.com/cradle-uz/traffic_laws/assets/15974766/bfcceb5e-9f79-4d95-86c8-11ad2b002520)
 8. Video yuklandikdan so'ng, YOLOv8 modeli video kadrlarida obyektlarni aniqlaydi. Aniqlangan obyektlar o'ng panelda ko'rsatiladi.
 9. Muxim: Vidyo protsess jarayonida protses ketayotkanliga ishonch xosil qiling. Vidyo protsess yuklangan vidyo hajmiga qarab bir necha daqiqani oladi.
+   
    ![image](https://github.com/cradle-uz/traffic_laws/assets/15974766/746900dd-d123-485c-8c2e-c9c31097790b)
 10. Vidyo protses tugagandan so'ng "Gradio" direktoriyasida 2ta yangi fayl yaratilishi kerak. Birinchisi - output.mp4 fayl bu obyektlarni aniqlagan kadrlardan tashkil topgan vidyo. Ikkinchisi, annotated_frames.csv fayl bo'lib ichida muammoli framelarni raqamlarini va xar bir aniqlangan frameni vaqtlari yozilgan bo'ladi.
 12. Vidyoni natijasini vidyo korinishida Veb-brauserni ozida ko'rsa ham bo'ladi. Yoki output.mp4 ni vidyo o'qidigan ilova yordamida oching.
