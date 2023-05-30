@@ -5,8 +5,7 @@ import numpy as np
 from ultralytics import YOLO
 from file_utils import project_dir
 
-path = "/home/kholbekov/Documents/Git/traffic_laws/scripts/splitted/val/vid_39_1284-2_1293.mp4"
-saqlash_path = "vid_39_1284-2_1293"
+
 def train():
     """
     Funksiya modelni train qiladi
@@ -26,7 +25,6 @@ def train():
     metrics = model.val()
     print(metrics.top1)   # top1 aniqligi
 
-s = 0
 def tekshirish(path2):
     """
     test qilish, model va rasmni berishimiz kerak
@@ -44,39 +42,48 @@ def tekshirish(path2):
     natijalar = model_custom(test_rasm_joyi)  # predict on an image
     natija = natijalar[0].names[np.argmax(natijalar[0].probs.cpu().numpy())]
     return (f"Label natija: {natija}")
-cap = cv2.VideoCapture(path)
 
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-# out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
-out = cv2.VideoWriter(
-        saqlash_path, fourcc, 20.0, (int(cap.get(3)), int(cap.get(4)))
-    )
 
-while(cap.isOpened()):
-    ret, frame = cap.read()
-    if ret==True:
-        frame = cv2.flip(frame,1)
-        # print(tekshirish(frame))
-        if tekshirish(frame) == "Label natija: good":
-            font = cv2.FONT_HERSHEY_COMPLEX
-            cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
-            s += 1
-        elif tekshirish(frame) == "Label natija: problem":
-            font = cv2.FONT_HERSHEY_COMPLEX
-            cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
-        # out.write(frame)
-            cv2.imwrite(saqlash_path + "/%#05d.jpg" % s, frame)
-            s += 1
-        cv2.imshow('frame' ,frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+def process(video_path):
+
+    saqlash_path = video_path.split('/')[-1].split(".")[0]
+    s = 0
+    cap = cv2.VideoCapture(video_path)
+
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    # out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
+    out = cv2.VideoWriter(
+            saqlash_path, fourcc, 20.0, (int(cap.get(3)), int(cap.get(4)))
+        )
+
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret==True:
+            frame = cv2.flip(frame,1)
+            # print(tekshirish(frame))
+            if tekshirish(frame) == "Label natija: good":
+                font = cv2.FONT_HERSHEY_COMPLEX
+                cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
+                s += 1
+            elif tekshirish(frame) == "Label natija: problem":
+                font = cv2.FONT_HERSHEY_COMPLEX
+                cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
+            # out.write(frame)
+                cv2.imwrite(saqlash_path + "/%#05d.jpg" % s, frame)
+                s += 1
+            cv2.imshow('frame' ,frame)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        else:
             break
-    else:
-        break
-cap.release()
+    cap.release()
 
-out.release()
+    out.release()
 
-cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
-images_to_video(saqlash_path, video_name = 'vid_39_1284-2_1293_problem.mp4', fps = 24)
+    images_to_video(saqlash_path, video_name = saqlash_path+'_problem.mp4', fps = 24)
+
+    return saqlash_path+'_problem.mp4'
