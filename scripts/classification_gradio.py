@@ -9,10 +9,10 @@ from classificatsion_video_demo import process
 
 def video_classiffication(video_path):
     print(video_path)
-    # result = process(video_path)
+    result = process(video_path)
     # print(type(result),result)
-    video_path = "vid_39_1284-2_1202_problem.mp4"
-    return video_path
+    #video_path = "vid_39_1284-2_1202_problem.mp4"
+    return result
 
 
 
