@@ -6,13 +6,26 @@ import pandas as pd
 from ultralytics import YOLO
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
-model = YOLO("../output/weights/best.pt")
+model = YOLO(os.path.join(PROJECT_DIR, '../models', 'detection', 'best.pt'))
 
 class_names = ['qizil', 'yashil', 'chiziq', 'keng_mashina_chiziqda']
 colors = np.random.default_rng(3).uniform(0, 255, size=(len(class_names), 3))
 
 
 def draw_detections(image, boxes, scores, cls_id, mask_alpha=0.3):
+    """
+    Kiritilgan rasmga bbox, aniqlik koifisent va kass idisini chizish funksiyasi
+
+    Parameterlar:
+        - rasm (numpy.ndarray): detectionni chizish uchun berilgan rasm.
+        - boxes (List[numpy.ndarray]): [x1, y1, x2, y2] formatidagi bbox koordinatalari ro'yxati.
+        - scores (List[float]): Har bir detection uchun koifisent ballar.
+        - cls_id (int): Objekt idisi.
+        - mask_alpha (float): default 0.3ga teng
+
+    Returns:
+        - numpy.ndarray: bbox detection chizilgan rasm.
+    """
     mask_img = image.copy()
     det_img = image.copy()
     img_height, img_width = image.shape[:2]
@@ -36,8 +49,19 @@ def draw_detections(image, boxes, scores, cls_id, mask_alpha=0.3):
     return cv2.addWeighted(mask_img, mask_alpha, det_img, 1 - mask_alpha, 0)
 
 
-# Define function to run object detection on video
 def detect_objects_on_video(video_path):
+    """
+    Video faylda ob'ektni aniqlashni ishga tushirish va aniniqlangan muamoli
+    framelarni saqlash funksiyasi.
+    Funksiya 2ta fayl yaratadi: Birinchisi, aniqlangan muammoli framelarni va
+    ularni vaqtini csv shaklida faylga saqlidi. Ikkinchisi, aniqlangan muammoli
+    framelar asosida vidyo fayl
+    Parameters:
+        - video_path (str): vidyo fayl joylashgan joy.
+
+    Returns:
+        - str: string korinishidagi vidyo resultat.
+    """
     cap = cv2.VideoCapture(video_path)
     fourcc = cv2.VideoWriter_fourcc(*'h264')
     out = cv2.VideoWriter('output.mp4', fourcc, cap.get(cv2.CAP_PROP_FPS),
@@ -47,69 +71,64 @@ def detect_objects_on_video(video_path):
     frame_number = 0
 
     while True:
-        # Read a frame from the video
+        # Vidyodan framelarni o'qish
         ret, frame = cap.read()
 
-        # Break if no more frames
         if not ret:
             break
 
-        # get detection results
+        # detection resultatini olish
         results = model(frame, conf=0.1)
 
-        # Flag to check if the frame contains "keng_mashina_chiziqda"
+        # Tekshirish: agar "keng_mashina_chiziqda" labelli shu frameda bormi
         has_annotation = False
         label = None
         for i in range(len(results)):
             boxes = results[i].boxes
-            # original image
+            # orginal rasm
             image = results[i].orig_img
             for j in range(len(boxes)):
                 label = boxes[j].cls
                 bbox_tensor = boxes[j].xyxy
                 print(class_names[int(label)])
 
-                # get bounding box coordinates as NumPy array [x1, y1, x2, y2]
+                # bbox kordinatalarini NumPy array [x1, y1, x2, y2] korinishda olish
                 det_box = bbox_tensor[0].cpu().numpy()
                 bbox_tensor_conf = boxes[j].conf
                 conf = bbox_tensor_conf[0].cpu().numpy()
                 frame = draw_detections(image, [det_box], [conf], int(label))
 
-                # Check if the class name is equal to "keng_mashina_chiziqda"
+                # Tekshirish: Klass nomi "keng_mashina_chiziqda" ga tengmi
                 if class_names[int(label)] == "keng_mashina_chiziqda":
                     has_annotation = True
 
-        # Print the frame number if it has the annotation
+        # Annotation bor framelarni raqamini chop etish
         if has_annotation:
             annotated_frames.append(frame_number)
-            # Retrieve the timestamp of the annotated frame
+            # muammoli framelarni vidyodagi vaqtini aniqlash va chop etish
             annotated_timestamps.append(cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0)
             print("Frame", frame_number, "has the annotation")
 
-            # Check if the label is defined and if it is equal to "keng_mashina_chiziqda"
             if label is not None and class_names[int(label)] == "keng_mashina_chiziqda":
                 out.write(frame)
 
         frame_number += 1
-    # Release resources
     cap.release()
     out.release()
     cv2.destroyAllWindows()
 
-    # Create a DataFrame from the annotated frames list
     df_annotated_frames = pd.DataFrame({'Frame Number': annotated_frames,
                                         'Timestamp (s)': annotated_timestamps})
 
-    # Save the DataFrame to a CSV file
     df_annotated_frames.to_csv('annotated_frames.csv', index=False)
-    # Print the annotated frame numbers and timestamps
+
     print("Annotated frames:")
     for frame_number, timestamp in zip(annotated_frames, annotated_timestamps):
         print("Frame", frame_number, "- Timestamp:", timestamp)
 
-    # Return the output video file path as a string
+    # natija
     return "output.mp4"
 
 
-# Define Gradio interface
+# Gradio interfayini aniqlash
 iface = gr.Interface(detect_objects_on_video, "video", "playable_video").launch()
