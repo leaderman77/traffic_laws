@@ -16,15 +16,15 @@ def draw_detections(image, boxes, scores, cls_id, mask_alpha=0.3):
     """
     Kiritilgan rasmga bbox aniqlik darajasi va klass IDisini chizish funksiyasi
 
-    Parameterlar:
-    rasm (numpy.ndarray): detectionni chizish uchun berilgan rasm.
-    boxes (List[numpy.ndarray]): [x1, y1, x2, y2] formatidagi bbox koordinatalari ro'yxati.
-    scores (List[float]): Har bir detection uchun koifisent ballar.
-    cls_id (int): Objekt idisi.
-    mask_alpha (float): default 0.3ga teng
+    Parameters:
+        rasm (numpy.ndarray): detectionni chizish uchun berilgan rasm.
+        boxes (List[numpy.ndarray]): [x1, y1, x2, y2] formatidagi bbox koordinatalari ro'yxati.
+        scores (List[float]): Har bir detection uchun koifisent ballar.
+        cls_id (int): Objekt idisi.
+        mask_alpha (float): default 0.3ga teng
 
     Returns:
-    numpy.ndarray: bbox detection chizilgan rasm.
+        numpy.ndarray: bbox detection chizilgan rasm.
     """
     mask_img = image.copy()
     det_img = image.copy()
@@ -57,11 +57,11 @@ def detect_objects_on_video(video_path):
     ularni vaqtini csv shaklida faylga saqlidi. Ikkinchisi, aniqlangan muammoli
     framelar asosida video fayl
 
-    Parameterlar:
-    video_path (str): video fayl joylashgan joy.
+    Parameters:
+        video_path (str): video fayl joylashgan joy.
 
     Returns:
-    str: string korinishidagi video resultat.
+        str: string korinishidagi video resultat.
     """
     cap = cv2.VideoCapture(video_path)
     fourcc = cv2.VideoWriter_fourcc(*'h264')
