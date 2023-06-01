@@ -1,24 +1,18 @@
-import os
-import cv2
-import numpy as np
+import glob
 import gradio as gr
-from gradio.components import Video
-import pandas as pd
-from ultralytics import YOLO
+from gradio.components import Gallery, Video
 from classificatsion_video_demo import process
 
-def video_classiffication(video_path):
+def predict(video_path):
+    # Your image processing code here
     print(video_path)
-    # result = process(video_path)
-    # print(type(result),result)
-    video_path = "vid_39_1284-2_1202_problem.mp4"
-    return video_path
+    result = process(video_path)
+    images = glob.glob(f'{result}/*.jpg')
+    return images
 
-
-
+problem_frames = Gallery(label="Problem images", elem_id="gallery").style(
+    grid=[4], height="auto"
+)
 input_video = Video(label="Input video") # Create input video component
-output_video = Video(label="Output video") # Create output video component
-interface = gr.Interface(fn=video_classiffication, inputs=input_video, outputs=output_video, title="Video Processing") # Create interface
-interface.launch() # Launch the interface
-# Define Gradio interface
-# iface = gr.Interface(video_classiffication, "video", "playable_video").launch()
+
+gr.Interface(fn=predict, inputs=input_video, outputs=problem_frames).launch()
