@@ -3,7 +3,7 @@
 #### Model rasm qabul qiladi, model rasmni qaysi classga tegishli ekanligini aniqlaydi.
 
 Bizda `good/problem` videolari mavjud, videolar quyidagi dastur asosida rasm qilib olindi.
-
+(data videolari [bu yerda](https://drive.google.com/drive/folders/1PK4pb5wXvD55c8zHqjyKvBpMStrQSAkV))
 
 <details><summary>convert_from_video_to_image</summary>
 
