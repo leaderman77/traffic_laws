@@ -13,10 +13,11 @@ def predict(video_path):
     print(video_path)
     result = process(video_path)
     images = glob.glob(f'{result}/*.jpg')
+    # selected_images = [images[0],images[len(images)//2],images[-1]]
     return images
 
 problem_frames = Gallery(label="Problem images", elem_id="gallery").style(
-    grid=[4], height="auto"
+    grid=[3], height="auto"
 )
 input_video = Video(label="Input video") # Create input video component
 
