@@ -4,6 +4,11 @@ from gradio.components import Gallery, Video
 from classificatsion_video_demo import process
 
 def predict(video_path):
+    """
+    Gradio interface orqali yuklab olingan videodan problem framelarni ajratib olinadi va resultat sifatida Galleryga chiqariladi
+    :param video_path:
+    :return:
+    """
     # Your image processing code here
     print(video_path)
     result = process(video_path)
