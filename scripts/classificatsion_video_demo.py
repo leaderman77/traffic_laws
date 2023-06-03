@@ -48,7 +48,8 @@ def tekshirish(path2):
 def process(video_path):
 
     saqlash_path = video_path.split('/')[-1].split(".")[0]
-    s = 0
+    problem_frame = 0
+    good_frame = 0
     if not os.path.exists(saqlash_path):
         # Create a new directory because it does not exist
         os.makedirs(saqlash_path)
@@ -68,13 +69,13 @@ def process(video_path):
             if tekshirish(frame) == "Label natija: good":
                 font = cv2.FONT_HERSHEY_COMPLEX
                 cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
-                s += 1
+                good_frame += 1
             elif tekshirish(frame) == "Label natija: problem":
                 font = cv2.FONT_HERSHEY_COMPLEX
                 cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
             # out.write(frame)
-                cv2.imwrite(saqlash_path + "/%#05d.jpg" % s, frame)
-                s += 1
+                cv2.imwrite(saqlash_path + "/%#05d.jpg" % problem_frame, frame)
+                problem_frame += 1
             # cv2.imshow('frame' ,frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -87,6 +88,6 @@ def process(video_path):
 
     cv2.destroyAllWindows()
 
-    images_to_video(saqlash_path, video_name = saqlash_path+'_problem.mp4', fps = 24)
+    # images_to_video(saqlash_path, video_name = saqlash_path+'_problem.mp4', fps = 24)
 
-    return saqlash_path
+    return problem_frame,good_frame,saqlash_path
