@@ -1,16 +1,16 @@
-from python import ultimateAlprSdk
+import cv2
+import glob
 import json
 import os.path
-import glob
-import cv2
-from PIL import ImageDraw
 import numpy as np
+from python import ultimateAlprSdk
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
+display_size = (1200, 700)
 TAG = "[PythonRecognizer] "
 
-# Defines the default JSON configuration. More information at https://www.doubango.org/SDKs/anpr/docs/Configuration_options.html
+# Defines the default JSON configuration. More information at
+# https://www.doubango.org/SDKs/anpr/docs/Configuration_options.html
 JSON_CONFIG = {
     "debug_level": "info",
     "debug_write_input_image_enabled": False,
@@ -45,57 +45,75 @@ IMAGE_TYPES_MAPPING = {
 
 
 # Load image
-def load_pil_image(path):
-    from PIL import Image, ExifTags, ImageOps
+def load_cv2_image(path):
     import traceback
-    pil_image = Image.open(path)
-    img_exif = pil_image.getexif()
-    ret = {}
+
+    # Load image using cv2
+    image = cv2.imread(path)
+    if image is None:
+        raise ValueError(TAG + "Failed to load image: %s" % path)
+
+    # Read image orientation from EXIF (if available)
     orientation = 1
     try:
-        if img_exif:
-            for tag, value in img_exif.items():
-                decoded = ExifTags.TAGS.get(tag, tag)
-                ret[decoded] = value
-            orientation = ret["Orientation"]
+        exif_data = image.getexif()
+        if exif_data is not None:
+            for tag, value in exif_data.items():
+                if tag == 0x0112:  # Tag for orientation
+                    orientation = value
+                    break
     except Exception as e:
         print(TAG + "An exception occurred: {}".format(e))
         traceback.print_exc()
 
+    # Apply orientation correction if needed
     if orientation > 1:
-        pil_image = ImageOps.exif_transpose(pil_image)
+        rotate_code = cv2.ROTATE_90_CLOCKWISE if orientation == 6 else cv2.ROTATE_90_COUNTERCLOCKWISE
+        image = cv2.rotate(image, rotate_code)
 
-    if pil_image.mode in IMAGE_TYPES_MAPPING:
-        imageType = IMAGE_TYPES_MAPPING[pil_image.mode]
+    # Convert BGR image to RGB
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # Determine image mode
+    image_mode = None
+    if image.shape[2] == 3:
+        image_mode = 'RGB'
+    elif image.shape[2] == 4:
+        image_mode = 'RGBA'
+    elif image.shape[2] == 1:
+        image_mode = 'L'
     else:
-        raise ValueError(TAG + "Invalid mode: %s" % pil_image.mode)
+        raise ValueError(TAG + "Invalid number of channels in the image")
 
-    return pil_image, imageType
+    # Get image type based on mode
+    if image_mode not in IMAGE_TYPES_MAPPING:
+        raise ValueError(TAG + "Invalid mode: %s" % image_mode)
+
+    image_type = IMAGE_TYPES_MAPPING[image_mode]
+
+    return image, image_type
 
 
 # draw rectangle and confidence to cars and license plates on cars
-def visualize_result(result_dict, image_path):
+def visualize_result(result_dict, image):
     plates = result_dict["plates"]
 
     # Draw bounding boxes and labels on the image
     for plate in plates:
         # Get the plate text and confidence
         plate_text = plate["text"]
-        confidence = plate["confidences"][0]
+        confidence_det = plate["confidences"][1]
 
         # Get the quadrilateral points
         warped_box = plate["warpedBox"]
         pts = [(warped_box[i], warped_box[i + 1]) for i in range(0, len(warped_box), 2)]
-
-        # Load the image using OpenCV
-        image = cv2.imread(image_path)
 
         # Convert points to integers
         pts = np.array(pts, dtype=np.int32)
 
         # Draw bounding box and text on the image
         cv2.polylines(image, [pts], True, (0, 255, 0), 2)
-        cv2.putText(image, f"{plate_text} ({confidence:.2f})",
+        cv2.putText(image, f"{plate_text} ({confidence_det:.2f})",
                     tuple(pts[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                     (0, 255, 0), 2)
 
@@ -123,7 +141,7 @@ def visualize_result(result_dict, image_path):
 
 
 # Check result
-def checkResult(operation, result, image_path=""):
+def check_result(operation, result):
     if not result.isOK():
         print(TAG + operation + ": failed -> " + result.phrase())
         assert False
@@ -142,43 +160,44 @@ def process_images(image_folder, charset, assets_folder):
     JSON_CONFIG["assets_folder"] = assets_folder
     JSON_CONFIG["charset"] = charset
 
+    # Initialize the engine
+    check_result("Init", ultimateAlprSdk.UltAlprSdkEngine_init(json.dumps(JSON_CONFIG)))
+
     # Process each image in the folder
-    images = glob.glob(os.path.join(image_folder, '*.PNG'))
+    images = glob.glob(os.path.join(image_folder, '*.png'))
     for image_path in images:
         # Check if image exists
         if not os.path.isfile(image_path):
             raise OSError(TAG + "File doesn't exist: %s" % image_path)
 
         # Decode the image and extract type
-        image, imageType = load_pil_image(image_path)
-        width, height = image.size
+        # image, imageType = load_pil_image(image_path)
+        # width, height = image.size
+        image, imageType = load_cv2_image(image_path)
+        height, width, channels = image.shape
+        results = ultimateAlprSdk.UltAlprSdkEngine_process(
+                                      imageType,
+                                      image.tobytes(),  # type(x) == bytes
+                                      width,
+                                      height,
+                                      0,  # stride
+                                      1  # exifOrientation (already rotated in load_image -> use default value: 1)
+                                    )
 
-        # Initialize the engine
-        checkResult("Init", ultimateAlprSdk.UltAlprSdkEngine_init(json.dumps(JSON_CONFIG)))
-
-        result_dict = checkResult("Process",
-                    ultimateAlprSdk.UltAlprSdkEngine_process(
-                        imageType,
-                        image.tobytes(),  # type(x) == bytes
-                        width,
-                        height,
-                        0,  # stride
-                        1  # exifOrientation (already rotated in load_image -> use default value: 1)
-                        ),
-                    image_path
-                    )
-        image = visualize_result(result_dict, image_path)
-
+        result_dict = check_result("Process", results)
+        # Convert RGB image to BGR
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        image = visualize_result(result_dict, image)
+        image = cv2.resize(image, display_size)
         cv2.imshow("License Plate Recognition", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-        # DeInit the engine
-        checkResult("DeInit",ultimateAlprSdk.UltAlprSdkEngine_deInit())
+    # DeInit the engine
+    check_result("DeInit",ultimateAlprSdk.UltAlprSdkEngine_deInit())
 
 
 if __name__ == "__main__":
-
     image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
     charset = "latin"
     assets_folder = os.path.join(PROJECT_DIR, 'assets')
