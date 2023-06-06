@@ -4,8 +4,9 @@ import os.path
 import glob
 import cv2
 from PIL import ImageDraw
+import numpy as np
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 TAG = "[PythonRecognizer] "
 
@@ -72,17 +73,68 @@ def load_pil_image(path):
     return pil_image, imageType
 
 
+# draw rectangle and confidence to cars and license plates on cars
+def visualize_result(result_dict, image_path):
+    plates = result_dict["plates"]
+
+    # Draw bounding boxes and labels on the image
+    for plate in plates:
+        # Get the plate text and confidence
+        plate_text = plate["text"]
+        confidence = plate["confidences"][0]
+
+        # Get the quadrilateral points
+        warped_box = plate["warpedBox"]
+        pts = [(warped_box[i], warped_box[i + 1]) for i in range(0, len(warped_box), 2)]
+
+        # Load the image using OpenCV
+        image = cv2.imread(image_path)
+
+        # Convert points to integers
+        pts = np.array(pts, dtype=np.int32)
+
+        # Draw bounding box and text on the image
+        cv2.polylines(image, [pts], True, (0, 255, 0), 2)
+        cv2.putText(image, f"{plate_text} ({confidence:.2f})",
+                    tuple(pts[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
+                    (0, 255, 0), 2)
+
+        # Draw rectangle around the car
+        car_box = plate["car"]["warpedBox"]
+        car_box = np.array(car_box, dtype=np.int32).reshape((-1, 2))
+        cv2.polylines(image, [car_box], True, (255, 0, 0), 2)
+
+        # Get confidence for the car
+        car_confidence = plate["car"]["confidence"]
+
+        # Define the text to display
+        car_text = "Car Confidence: {:.2f}%".format(car_confidence)
+
+        # Set the position and font settings for the text
+        text_position = (car_box[0][0], car_box[0][1] - 10)
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 0.5
+        font_thickness = 1
+
+        # Draw the text on the image
+        cv2.putText(image, car_text, text_position, font, font_scale, (255, 0, 0), font_thickness)
+
+    return image
+
+
 # Check result
-def checkResult(operation, result):
+def checkResult(operation, result, image_path=""):
     if not result.isOK():
         print(TAG + operation + ": failed -> " + result.phrase())
         assert False
     else:
         print(TAG + operation + ": OK -> " + result.json())
         result_dict = json.loads(result.json())
-        print(result_dict)
-        if result_dict is None:
+
+        if len(result_dict) == 0:
             return
+
+        return result_dict
 
 
 def process_images(image_folder, charset, assets_folder):
@@ -91,7 +143,7 @@ def process_images(image_folder, charset, assets_folder):
     JSON_CONFIG["charset"] = charset
 
     # Process each image in the folder
-    images = glob.glob(os.path.join(image_folder, '*.jpg'))
+    images = glob.glob(os.path.join(image_folder, '*.PNG'))
     for image_path in images:
         # Check if image exists
         if not os.path.isfile(image_path):
@@ -104,7 +156,7 @@ def process_images(image_folder, charset, assets_folder):
         # Initialize the engine
         checkResult("Init", ultimateAlprSdk.UltAlprSdkEngine_init(json.dumps(JSON_CONFIG)))
 
-        checkResult("Process",
+        result_dict = checkResult("Process",
                     ultimateAlprSdk.UltAlprSdkEngine_process(
                         imageType,
                         image.tobytes(),  # type(x) == bytes
@@ -112,18 +164,24 @@ def process_images(image_folder, charset, assets_folder):
                         height,
                         0,  # stride
                         1  # exifOrientation (already rotated in load_image -> use default value: 1)
-                        )
+                        ),
+                    image_path
                     )
+        image = visualize_result(result_dict, image_path)
+
+        cv2.imshow("License Plate Recognition", image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         # DeInit the engine
         checkResult("DeInit",ultimateAlprSdk.UltAlprSdkEngine_deInit())
 
 
-# Entry point
 if __name__ == "__main__":
-    image_folder = r"C:\Users\sardo\Documents\DS\PyCharm\cradle\traffic_laws\assets\images"
+
+    image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
     charset = "latin"
-    assets_folder = r"C:\Users\sardo\Documents\DS\PyCharm\cradle\traffic_laws\assets"
+    assets_folder = os.path.join(PROJECT_DIR, 'assets')
 
     process_images(image_folder, charset, assets_folder)
 
