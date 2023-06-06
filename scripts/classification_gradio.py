@@ -37,4 +37,4 @@ gr.Interface(fn=predict,
              outputs=[all_frame,problem_frame,good_frame,problem_frames],
              title=my_title,
              examples=my_example,
-             description=my_description).launch()
+             description=my_description).launch(share=True)
