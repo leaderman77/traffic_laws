@@ -10,6 +10,12 @@ from python import ultimateAlprSdk
 
 class LicensePlateRecognizer:
     def __init__(self, json_config, image_types_mapping):
+        self.image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
+        self.charset = "latin"
+        self.assets_folder = os.path.join(PROJECT_DIR, 'assets')
+        self.image_save_path = os.path.join(PROJECT_DIR, 'assets', 'result_imgs')
+        self.is_save = True
+        self.is_result_show = False
         self.json_config = json_config
         self.image_types_mapping = image_types_mapping
         self.result_dict = {}
@@ -85,6 +91,13 @@ class LicensePlateRecognizer:
 
         return image
 
+    def save_result_image(self, image, image_path):
+        filename = os.path.basename(image_path)
+        result_image_path = os.path.join(self.image_save_path, filename)
+        cv2.imwrite(result_image_path, image)
+
+        print("Result image saved:", result_image_path)
+
     def check_result(self, operation, result):
         if not result.isOK():
             print(TAG + operation + ": failed -> " + result.phrase())
@@ -98,13 +111,13 @@ class LicensePlateRecognizer:
 
             self.result_dict = result_dict
 
-    def process_images(self, image_folder, charset, assets_folder):
-        self.json_config["assets_folder"] = assets_folder
-        self.json_config["charset"] = charset
+    def process_images(self):
+        self.json_config["assets_folder"] = self.assets_folder
+        self.json_config["charset"] = self.charset
 
         self.check_result("Init", ultimateAlprSdk.UltAlprSdkEngine_init(json.dumps(self.json_config)))
 
-        images = glob.glob(os.path.join(image_folder, '*.*'))
+        images = glob.glob(os.path.join(self.image_folder, '*.*'))
         for image_path in images:
             if not os.path.isfile(image_path):
                 raise OSError("File doesn't exist: %s" % image_path)
@@ -124,10 +137,14 @@ class LicensePlateRecognizer:
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
             image = self.visualize_result(image)
             image = cv2.resize(image, display_size)
-            cv2.imshow("License Plate Recognition", image)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            if self.is_result_show:
+                cv2.imshow("License Plate Recognition", image)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
 
+            # save the image to the folder - assets/result_imgs
+            if self.is_save:
+                self.save_result_image(image, image_path)
         self.check_result("DeInit", ultimateAlprSdk.UltAlprSdkEngine_deInit())
 
 
@@ -168,9 +185,5 @@ if __name__ == "__main__":
         'L': ultimateAlprSdk.ULTALPR_SDK_IMAGE_TYPE_Y
     }
 
-    image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
-    charset = "latin"
-    assets_folder = os.path.join(PROJECT_DIR, 'assets')
-
     recognizer = LicensePlateRecognizer(JSON_CONFIG, IMAGE_TYPES_MAPPING)
-    recognizer.process_images(image_folder, charset, assets_folder)
+    recognizer.process_images()
