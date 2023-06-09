@@ -10,6 +10,15 @@ from python import ultimateAlprSdk
 
 class LicensePlateRecognizer:
     def __init__(self, json_config, image_types_mapping):
+        """
+        LicensePlateRecognizer classini instansiyasini ishga tushirish.
+
+        Parameters:
+        json_config : dict
+            JSON formatidagi konfiguratsiya sozlamalari.
+        image_types_mapping : dict
+            Rasm rejimlarini ularning mos keladigan turlariga solishtirish.
+        """
         self.image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
         self.charset = "latin"
         self.assets_folder = os.path.join(PROJECT_DIR, 'assets')
@@ -21,29 +30,49 @@ class LicensePlateRecognizer:
         self.result_dict = {}
 
     def load_cv2_image(self, path):
+        """
+        OpenCV (cv2) kutubxonasi yordamida rasmni berilgan joydan oqib olish funksiyasi.
+
+        Parameters:
+        path : str
+            rasm o'qib olish joyi.
+
+        Returns:
+        image: ndarray (height, width, channels)
+            Tuple tipidagi rasm va rasm tipi
+
+        Raises:
+        ValueError
+            Agar rasm yuklanmasa yoki rasmdagi kanallar soni noto'g'ri bo'lsa.
+        """
         image = cv2.imread(path)
         if image is None:
             raise ValueError("Failed to load image: %s" % path)
 
+        # tasvirning yo'nalishini tekshirish.
         orientation = 1
         try:
             pil_image = Image.open(path)
             exif_data = pil_image.getexif()
             if exif_data is not None:
                 for tag, value in exif_data.items():
-                    if tag == 0x0112:  # Tag for orientation
+                    if tag == 0x0112:
                         orientation = value
                         break
         except Exception as e:
             print("An exception occurred: {}".format(e))
             traceback.print_exc()
 
+        # Agar tasvir 1 dan katta orientatsiya qiymatiga ega bo'lsa,
+        # u mos ravishda aylantiriladi.
         if orientation > 1:
             rotate_code = cv2.ROTATE_90_CLOCKWISE if orientation == 6 else cv2.ROTATE_90_COUNTERCLOCKWISE
             image = cv2.rotate(image, rotate_code)
 
+        # Rasmni RGB ga aylantirish.
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
+        # Rasm turi tasvirdagi kanallar soniga qarab aniqlanadi.
         image_mode = None
         if image.shape[2] == 3:
             image_mode = 'RGB'
@@ -62,13 +91,24 @@ class LicensePlateRecognizer:
         return image, image_type
 
     def visualize_result(self, image):
+        """
+        Rasmga bbox va labellar chizish orqali visualizatsiya qilish.
+
+        Parameters:
+        image : ndarray
+            Rasm.
+
+        Returns:
+        image: ndarray
+            bbox va labellar orqali ozgartirilgan rasm.
+        """
         if "plates" not in self.result_dict:
             print("No license plates found in the result.")
             return image
 
         plates = self.result_dict["plates"]
 
-        # Draw bounding boxes and labels on the image
+        # bounding boxes va labellarni rasmga chizish
         for plate in plates:
             plate_text = plate["text"]
             confidence_det = plate["confidences"][1]
@@ -92,6 +132,15 @@ class LicensePlateRecognizer:
         return image
 
     def save_result_image(self, image, image_path):
+        """
+        Rasmni berilgan joyga saqlash
+
+        Parameters:
+        image : ndarray
+            Rasm.
+        image_path : str
+            Rasm saqlash joyi.
+        """
         filename = os.path.basename(image_path)
         result_image_path = os.path.join(self.image_save_path, filename)
         cv2.imwrite(result_image_path, image)
@@ -99,6 +148,19 @@ class LicensePlateRecognizer:
         print("Result image saved:", result_image_path)
 
     def check_result(self, operation, result):
+        """
+        Operatsiya natijasini tekshirish va natijani korib chiqish funksiyasi.
+
+        Parameters:
+        operation : str
+            bajarilgan operatsiya tavsifi.
+        result : Result
+            Tekshirish uchun Result ob'ekti.
+
+        Raises:
+        AssertionError
+            Agar operatisiya natijasi muvaffaqiyatsiz chiqsa.
+        """
         if not result.isOK():
             print(TAG + operation + ": failed -> " + result.phrase())
             assert False
@@ -112,6 +174,14 @@ class LicensePlateRecognizer:
             self.result_dict = result_dict
 
     def process_images(self):
+        """
+        Ultimate ALPR SDK dan foydalangan holda belgilangan rasm papkasidan
+        rasmlarni qayta ishlash.
+
+        Raises:
+        OSError
+            Agar rasm papkasida fayl mavjud bo'lmasa.
+        """
         self.json_config["assets_folder"] = self.assets_folder
         self.json_config["charset"] = self.charset
 
@@ -142,7 +212,7 @@ class LicensePlateRecognizer:
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
 
-            # save the image to the folder - assets/result_imgs
+            # agar save true bolsa rasmni berilgan papkaga saqlash
             if self.is_save:
                 self.save_result_image(image, image_path)
         self.check_result("DeInit", ultimateAlprSdk.UltAlprSdkEngine_deInit())
