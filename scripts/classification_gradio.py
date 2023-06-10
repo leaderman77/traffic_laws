@@ -11,14 +11,14 @@ def predict(video_path):
     """
     # Your image processing code here
     print(video_path)
-    problem, good, result = process(video_path)
+    c, good, result = process(video_path)
     images = glob.glob(f'{result}/*.jpg')
     # selected_images = [images[0],images[len(images)//2],images[-1]]
-    return problem+good, problem, good,images
+    return c, good, good,images
 
 my_example = [
-    ['/home/asus/Downloads/Telegram Desktop/video/vid_39_1284-2_1202.mp4'],
-    ['/home/asus/Downloads/Telegram Desktop/video/vid_39_1284-2_1204.mp4']
+    ['/home/mukhriddin/traffic_laws/scripts/vid_39_1284-2_740.mp4'],
+    ['/home/mukhriddin/traffic_laws/scripts/vid_39_1284-2_745.mp4']
 ]
 
 my_title = "Video Klassifikatsiya"
