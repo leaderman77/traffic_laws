@@ -26,6 +26,7 @@ def train():
 
 
 
+
 def tekshirish():
     """
     test qilish, model va rasmni berishimiz kerak
@@ -53,5 +54,6 @@ def tekshirish():
     print(f"Label natija: {natija}")
 
 tekshirish()
+
 
 
