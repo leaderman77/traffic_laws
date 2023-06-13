@@ -5,7 +5,7 @@ import os.path
 import traceback
 import numpy as np
 from PIL import Image
-from python import ultimateAlprSdk
+import ultimateAlprSdk
 
 
 class LicensePlateRecognizer:
