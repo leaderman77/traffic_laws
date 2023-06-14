@@ -5,6 +5,11 @@ import os.path
 import traceback
 import numpy as np
 from PIL import Image
+
+import sys
+import os
+path = os.path.abspath("../python")
+sys.path.append(path)
 import ultimateAlprSdk
 
 

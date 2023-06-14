@@ -15,6 +15,10 @@ if version_info >= (2,6,0):
         try:
             fp, pathname, description = imp.find_module('_ultimateAlprSdk', [dirname(__file__)])
         except ImportError:
+            import sys
+            import os
+            path =os.path.abspath('../binaries/linux/x86_64')
+            sys.path.append(path)
             import _ultimateAlprSdk
             return _ultimateAlprSdk
         if fp is not None:
