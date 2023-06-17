@@ -92,4 +92,4 @@ def process(video_path):
 
     # images_to_video(saqlash_path, video_name = saqlash_path+'_problem.mp4', fps = 24)
 
-    return c,good_frame,saqlash_path
+    return c,good_frame,problem_frame ,saqlash_path
