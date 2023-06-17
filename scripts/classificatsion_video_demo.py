@@ -33,15 +33,15 @@ def tekshirish(path2):
         project_dir(),
         "models",
         "classification",
-        "tl-14",
-        "weights/best.pt"
+        "128_1_90",
+        "weights/best_cls_128_1_90.pt"
     )
     test_rasm_joyi =(path2)
 
     model_custom = YOLO(train_qilingan_model_joyi)
     natijalar = model_custom(test_rasm_joyi)  # predict on an image
     natija = natijalar[0].names[np.argmax(natijalar[0].probs.cpu().numpy())]
-    return (f"Label natija: {natija}")
+    return f"Label natija: {natija}"
 
 
 
@@ -60,21 +60,23 @@ def process(video_path):
     out = cv2.VideoWriter(
             saqlash_path, fourcc, 20.0, (int(cap.get(3)), int(cap.get(4)))
         )
-
+    c = 0
     while(cap.isOpened()):
         ret, frame = cap.read()
         if ret==True:
-            frame = cv2.flip(frame,1)
             # print(tekshirish(frame))
+            c = c + 1
             if tekshirish(frame) == "Label natija: good":
                 font = cv2.FONT_HERSHEY_COMPLEX
                 cv2.putText(frame, 'good', (0, 100), font, 2, (255, 255, 255), 3)
+                cv2.imwrite(saqlash_path + "/%#05d.jpg" % c, frame)
                 good_frame += 1
-            elif tekshirish(frame) == "Label natija: problem":
+            else:
+            # elif tekshirish(frame) == "Label natija: problem":
                 font = cv2.FONT_HERSHEY_COMPLEX
                 cv2.putText(frame, 'problem', (0, 100), font, 2, (255, 255, 255), 3)
             # out.write(frame)
-                cv2.imwrite(saqlash_path + "/%#05d.jpg" % problem_frame, frame)
+                cv2.imwrite(saqlash_path + "/%#05d.jpg" % c, frame)
                 problem_frame += 1
             # cv2.imshow('frame' ,frame)
 
@@ -90,4 +92,4 @@ def process(video_path):
 
     # images_to_video(saqlash_path, video_name = saqlash_path+'_problem.mp4', fps = 24)
 
-    return problem_frame,good_frame,saqlash_path
+    return c,good_frame,problem_frame ,saqlash_path
