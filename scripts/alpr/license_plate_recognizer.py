@@ -8,7 +8,7 @@ from PIL import Image
 
 import sys
 import os
-path = os.path.abspath("../python")
+path = os.path.abspath("../../python")
 sys.path.append(path)
 import ultimateAlprSdk
 
@@ -213,7 +213,7 @@ class LicensePlateRecognizer:
 
 
 if __name__ == "__main__":
-    PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
     display_size = (1200, 700)
     TAG = "[PythonRecognizer] "
 
