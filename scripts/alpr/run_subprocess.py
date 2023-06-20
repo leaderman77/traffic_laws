@@ -2,6 +2,7 @@ import subprocess
 import os
 
 # change current working directory to binare/linux/mu
+os.chdir(os.getcwd())
 os.chdir("../../binaries/linux/x86_64")
 
 # construct and run the command
