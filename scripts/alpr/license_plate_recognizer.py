@@ -123,16 +123,16 @@ class LicensePlateRecognizer:
             cv2.polylines(image, [pts], True, (0, 255, 0), 2)
             cv2.putText(image, f"{plate_text} ({confidence_det:.2f})", tuple(pts[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
-
-            car_box = np.array(plate["car"]["warpedBox"], dtype=np.int32).reshape((-1, 2))
-            cv2.polylines(image, [car_box], True, (255, 0, 0), 2)
-            car_confidence = plate["car"]["confidence"]
-            car_text = f"Car Confidence: {car_confidence:.2f}%"
-            text_position = (car_box[0][0], car_box[0][1] - 10)
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            font_scale = 0.5
-            font_thickness = 1
-            cv2.putText(image, car_text, text_position, font, font_scale, (255, 0, 0), font_thickness)
+            if "car" in plate:
+                car_box = np.array(plate["car"]["warpedBox"], dtype=np.int32).reshape((-1, 2))
+                cv2.polylines(image, [car_box], True, (255, 0, 0), 2)
+                car_confidence = plate["car"]["confidence"]
+                car_text = f"Car Confidence: {car_confidence:.2f}%"
+                text_position = (car_box[0][0], car_box[0][1] - 10)
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                font_scale = 0.5
+                font_thickness = 1
+                cv2.putText(image, car_text, text_position, font, font_scale, (255, 0, 0), font_thickness)
 
         return image
 
@@ -253,6 +253,7 @@ if __name__ == "__main__":
     }
     # rasmlar joyi
     image_folder = os.path.join(PROJECT_DIR, 'assets', 'images')
+
     # natija rasimlarni saqlash joyi
     save_img_path = os.path.join(PROJECT_DIR, 'assets', 'result_imgs')
 
