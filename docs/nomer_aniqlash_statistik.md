@@ -8,6 +8,7 @@
       kodimizni ishlatib olamiz
     - natijalar `result_imgs` bosh faylimizga yuklanadi
 2. Natija va statistika :
+<<<<<<< HEAD
 
     -
 
@@ -68,4 +69,16 @@
    | ![0012843o0xk3v.jpg](..%2Fdata%2F839_problem%2F0012843o0xk3v.jpg) | ![0012843o0xk3v.jpg](..%2Fdata%2F839_result_imgs%2F0012843o0xk3v.jpg) |          |
    | ![0013288khicf7.jpg](..%2Fdata%2F839_problem%2F0013288khicf7.jpg) | ![0013288khicf7.jpg](..%2Fdata%2F839_result_imgs%2F0013288khicf7.jpg) |          |
    | ![00090960bjxba.jpg](..%2Fdata%2F839_problem%2F00090960bjxba.jpg) | ![00090960bjxba.jpg](..%2Fdata%2F839_result_imgs%2F00090960bjxba.jpg) |          |
+=======
+   - Modelsiz qilingan test
+   
+      | asli                                           | result_imgs                                         |
+      |------------------------------------------------|-----------------------------------------------------|
+      | ![image](https://github.com/cradle-uz/traffic_laws/assets/106407386/67951ee9-f871-4aeb-8695-c621912c2599) | ![image](https://github.com/cradle-uz/traffic_laws/assets/106407386/03e481ac-f444-4d3d-8110-9aa89365d399)
+ |
+      | ![00080.jpg](..%2Fassets%2Fimages%2F00080.jpg) | ![00080.jpg](..%2Fassets%2Fresult_imgs%2F00080.jpg) |
+      | ![00114.jpg](..%2Fassets%2Fimages%2F00114.jpg) |   ![00114.jpg](..%2Fassets%2Fresult_imgs%2F00114.jpg)                                                  |
+      | ![00153.jpg](..%2Fassets%2Fimages%2F00153.jpg) |   ![00153.jpg](..%2Fassets%2Fresult_imgs%2F00153.jpg)                                                  |
+>>>>>>> 8a08684a8c55b37a1404a1b99fef0aa966c9d54f
+
 
