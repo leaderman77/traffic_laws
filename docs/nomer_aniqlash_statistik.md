@@ -12,8 +12,10 @@
    
       | asli                                           | result_imgs                                         |
       |------------------------------------------------|-----------------------------------------------------|
-      | ![00059.jpg](..%2Fassets%2Fimages%2F00059.jpg) | ![00059.jpg](..%2Fassets%2Fresult_imgs%2F00059.jpg) |
+      | ![image](https://github.com/cradle-uz/traffic_laws/assets/106407386/67951ee9-f871-4aeb-8695-c621912c2599) | ![image](https://github.com/cradle-uz/traffic_laws/assets/106407386/03e481ac-f444-4d3d-8110-9aa89365d399)
+ |
       | ![00080.jpg](..%2Fassets%2Fimages%2F00080.jpg) | ![00080.jpg](..%2Fassets%2Fresult_imgs%2F00080.jpg) |
       | ![00114.jpg](..%2Fassets%2Fimages%2F00114.jpg) |   ![00114.jpg](..%2Fassets%2Fresult_imgs%2F00114.jpg)                                                  |
       | ![00153.jpg](..%2Fassets%2Fimages%2F00153.jpg) |   ![00153.jpg](..%2Fassets%2Fresult_imgs%2F00153.jpg)                                                  |
+
 
