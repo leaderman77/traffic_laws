@@ -31,18 +31,18 @@
 
 ### Goods were identified in the problem frames separated by the model
 
-| Name | originally | problem | good |
-|--------------------------|------|------------ ------------------|------|
-| vid_39_1284-2_1174_problem | 117 | 1(99 - picture) | 116 |
-| vid_39_1284-2_1202_problem | 38 | 18(12 - 30 pictures) | 20 |
-| vid_39_1284-2_1204_problem | 76 | 24(13 - 37 pictures) | 52 |
-| vid_39_1284-2_1207_problem | 50 | 22(8 - 30 pictures) | 28 |
-| vid_39_1284-2_1215_problem | 93 | 68(25 - 93 pictures) | 25 |
-| vid_39_1284-2_1220_problem | 104 | 7 (pictures 77 - 84) | 97 |
-| vid_39_1284-2_1237_problem | 39 | 30 (pictures 1 - 15 and 23 - 39) | 9 |
-| vid_39_1284-2_1250_problem | 52 | 20(4 - 24 pictures) | 32 |
-| vid_39_1284-2_1254_problem | 67 | 47(8 - 55 pictures) | 20 |
-| vid_39_1284-2_1293_problem | 386 | 358(2 - 360 | 28 |
+| Name                       | original | problem                       | good |
+|----------------------------|------|-------------------------------|------|
+| vid_39_1284-2_1174_problem | 117  | 1(99 - rasm)                  | 116  |
+| vid_39_1284-2_1202_problem | 38   | 18(12 - 30 rasmlar)           | 20   |
+| vid_39_1284-2_1204_problem | 76   | 24(13 - 37 rasmlar)           | 52   |
+| vid_39_1284-2_1207_problem | 50   | 22(8 - 30 rasmlar)            | 28   |
+| vid_39_1284-2_1215_problem | 93   | 68(25 - 93 rasmlar)           | 25   |
+| vid_39_1284-2_1220_problem | 104  | 7(77 - 84 rasmlar)            | 97   |
+| vid_39_1284-2_1237_problem | 39   | 30(1 - 15 va 23 - 39 rasmlar) | 9    |
+| vid_39_1284-2_1250_problem | 52   | 20(4 - 24 rasmlar)            | 32   |
+| vid_39_1284-2_1254_problem | 67   | 47(8 - 55 rasmlar)            | 20   |
+| vid_39_1284-2_1293_problem | 386  | 358(2 - 360                   | 28   |
 
 The highest number of frames is 386 in `vid_39_1284-2_1293`
 
