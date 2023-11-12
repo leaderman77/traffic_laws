@@ -94,7 +94,7 @@ def train_test_split(source_directory, training_directory, testing_directory, sp
 
 </details>
 
-#### Data tuzilishi quyidagicha
+#### The data structure is as follows
 
 ```commandline
 good_problem_data
@@ -110,9 +110,9 @@ good_problem_data
     └── ...
 ```
 
-Yuqorida `test/train` uchun rasmlarni ajratib datani tayyorlab oldik.
+Above, we prepared the data for `test/train' by separating the images.
 
-#### Train qilib ko'rganda `model = YOLO('yolov8n-cls.pt')` modulni yuklab olib, `data_path`ni modulga berib o'tamiz train qilish uchun. `model.train(data='/home/nuriddin/TrafficLaw/traffic_laws/data/good_problem_data', epochs=10, imgsz=64)`
+#### When trying to train, we download `model = YOLO('yolov8n-cls.pt')` module and pass `data_path` to the module for training. `model.train(data='/home/nuriddin/TrafficLaw/traffic_laws/data/good_problem_data', epochs=10, imgsz=64)`
 
 <details><summary>train.py</summary>
 
@@ -127,7 +127,7 @@ model.train(data='/home/nuriddin/TrafficLaw/traffic_laws/data/good_problem_data'
 ```
 </details>
 
-<details><summary>train.py natijasi quyidagicha:</summary>
+<details><summary>train.py output is as follows:</summary>
 
 ```doctest
   Epoch    GPU_mem       loss  Instances       Size
@@ -183,10 +183,10 @@ model.train(data='/home/nuriddin/TrafficLaw/traffic_laws/data/good_problem_data'
 </details>
 
 
-#### Train qilib bo'lgach, git orqali yuklangan `ultralytics` biblatekasi joylashgan faylda quyidagi ko'rsatilgan qismga borib train natijasini ko'rishimiz mumkin. <br>
+#### After training, we can see the train result by going to the part shown below in the file containing the `ultralytics` library uploaded via git. <br>
 `Logging results to /home/nuriddin/ultralytics/runs/classify/train1`
 
-`train1`da quyidagi fayllarni mavjud. 
+`train1' contains the following files.
 
 ```doctest
 train1
@@ -196,7 +196,7 @@ train1
     ├── last.pt
 ```
 
-`last.pt` orqali quyidagicha natijani `predict` qilishimiz mumkin.
+We can `predict' the result as follows through `last.pt`.
 
 <details><summary>predict.py</summary>
 
@@ -216,7 +216,7 @@ probs = results[0].probs.tolist() # yuz berish darajasi
 print(name)
 print(probs)
 
-# yuz berish darajasi eng yuqori qiymatga ega classga tegishliligini ko'rish.
+# see if the occurrence rate belongs to the class with the highest value.
 print(name[np.argmax(probs)])
 
 ```
