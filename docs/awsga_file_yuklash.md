@@ -1,33 +1,33 @@
-## SWS S3ga fayl yuklash
+## File upload to SWS S3
 
-Qilinadigan ishlar ketma-ketligi:
+The sequence of actions:
 
-1. Dastalab `AWS CLI`ni ustanovka qilamiz:
+1. First, we install `AWS CLI`:
 ```commandline
-sudo apt  install awscli
+sudo apt install awscli
 ```
-2. `AWS` configuratsiyalarini to'g'irlashimiz kerak, termilaldan quyidagi komanda teriladi: 
+2. We need to adjust `AWS` configurations, type the following command from the terminal:
 ```commandline
 aws configure
 ```
-enter bosilgandan keyin bazi confilglar so'raladi:
+After pressing enter some config will be requested:
 * access key ID - `AKIA476XMENJTLOCC4CE`
 * secret access key - `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`
 * default region name - `ap-northeast-3`
-* output format - `enter`ni o'zini bosaveramiz, hech narsa kiritish shartmas 
+* output format - press `enter' itself, you don't need to enter anything
 
-`output format` qismida hech narsa kirtish kerak emas shunchaki `enter` bosilsa bo'ldi.
+You don't need to enter anything in `output format', just press `enter'.
 
-3. Filelarni terminal orqali yuklashimiz mumkin:
+3. We can upload files through the terminal:
 ```commandline
 aws s3 cp example.txt s3://my-bucket/
 ```
-bu yerda:
-* exmaple.txt - yuklamoqchi bo'lgan filemiz bizda `*.zip` bo'ladi.
-* my-becket - buketimiz nomi - `traffic-low`
+here:
+* exmaple.txt - the file we want to upload will be `*.zip`.
+* my-becket - the name of our becket is `traffic-low'
 
-4. `my-bucket` dagi filelarni korish uchun :
-    ```commandline
-    aws s3 ls s3://my-bucket/
-    ```
-   * my-becket - buketimiz nomi - `traffic-low`
+4. To view the files in `my-bucket`:
+     ```commandline
+     aws s3 ls s3://my-bucket/
+     ```
+    * my-becket - the name of our becket is `traffic-low'
