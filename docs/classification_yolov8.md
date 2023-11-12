@@ -1,9 +1,9 @@
 ## Classification Yolov8
 
-#### Model rasm qabul qiladi, model rasmni qaysi classga tegishli ekanligini aniqlaydi.
+#### The model receives an image, the model determines which class the image belongs to.
 
-Bizda `good/problem` videolari mavjud, videolar quyidagi dastur asosida rasm qilib olindi.
-(data videolari [bu yerda](https://drive.google.com/drive/folders/1PK4pb5wXvD55c8zHqjyKvBpMStrQSAkV))
+We have ``good/problem'' videos, the videos were captured using the following program.
+(data videos [here](https://drive.google.com/drive/folders/1PK4pb5wXvD55c8zHqjyKvBpMStrQSAkV))
 
 <details><summary>convert_from_video_to_image</summary>
 
@@ -13,33 +13,33 @@ import cv2
 
 
 def convert_from_video_to_image(video_path):
-    cam = cv2.VideoCapture(video_path)
-    try:
-        if not os.path.exists('data'):
-            os.makedirs('data')
-    except OSError:
-        print('Error: Creating directory of data')
-    # frame
-    currentframe = 0
-    while (True):
-        # reading from frame
-        ret, frame = cam.read()
-        if ret:
-            # if video is still left continue creating images
-            name = './data/frame' + str(currentframe) + '.jpg'
-            print('Creating...' + name)
-            # writing the extracted images
-            cv2.imwrite(name, frame)
-            currentframe += 1
-        else:
-            break
-    cam.release()
-    cv2.destroyAllWindows()
+     cam = cv2.VideoCapture(video_path)
+     try:
+         if not os.path.exists('data'):
+             os.makedirs('data')
+     except OSError:
+         print('Error: Creating directory of data')
+     # frame
+     currentframe = 0
+     while (True):
+         # reading from frame
+         ret, frame = cam.read()
+         if ret:
+             # if video is still left continue creating images
+             name = './data/frame' + str(currentframe) + '.jpg'
+             print('Creating...' + name)
+             # writing the extracted images
+             cv2.imwrite(name, frame)
+             currentframe += 1
+         otherwise:
+             break
+     cam.release()
+     cv2.destroyAllWindows()
 ```
 
 </details>
 
-Quyidagi funksiya orqali rasmlarni `test/train` ajratib olindi.
+The `test/train' images were extracted using the following function.
 
 
 <details><summary>train_test_split</summary>
